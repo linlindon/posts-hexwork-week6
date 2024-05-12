@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema(
 		},
 		createdAt: { type: Date, default: Date.now },
 		photo: String,
+		gender: { 
+			type: String, 
+			enum: ['F', 'M'],
+			required: [true, '使用者性別未選擇']
+		}
 	},
 	{
 		versionKey: false
