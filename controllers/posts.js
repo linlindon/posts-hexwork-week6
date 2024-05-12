@@ -3,15 +3,22 @@ const mongoose = require('mongoose');
 const errorHandler = require('../utils/errorHandler');
 const successHandler = require('../utils/successHandler');
 const Post = require('../models/posts');
+//User 雖然沒有直接被使用，但因為在 Post model 中有關聯到，所以需要引入
+const User = require('../models/users');
 
 const posts = {
-	async getPosts({ req, res}) {
+	async getPosts({ req, res }) {
 		const { timeSort, search } = req.query;
 		const q = search !== undefined ? { "content": new RegExp(search) } : {};
+		const sort = timeSort !== undefined ? { createdAt: timeSort } : {};
 
 		// asc 或 1 遞增(由小到大，由舊到新)，desc 或 -1 遞減(由大到小、由新到舊)
 		// 也可以寫成 .sort(-createdAt)
-		const data = await Post.find(q).sort({ createdAt: timeSort });
+		const data = await Post.find(q).sort(sort).populate({
+			//對應的是 model 的"欄位"名稱
+			path: 'user',
+			select: 'name photo'
+		});
 		successHandler({ res, customMessage: '取得所有 posts 成功', data});
 	},
 	async createPosts({ req, res }) {
@@ -22,6 +29,7 @@ const posts = {
 					content: body.content.trim(),
 					title: body.title.trim(),
 					tags: body.tags,
+					user: body.userId
 				});
 				successHandler({ res, customMessage: '新增 post 成功', data: newPost});
 			} else {
