@@ -5,8 +5,13 @@ const successHandler = require('../utils/successHandler');
 const Post = require('../models/posts');
 
 const posts = {
-	async getPosts(res) {
-		const data = await Post.find();
+	async getPosts({ req, res}) {
+		const { timeSort, search } = req.query;
+		const q = search !== undefined ? { "content": new RegExp(search) } : {};
+
+		// asc 或 1 遞增(由小到大，由舊到新)，desc 或 -1 遞減(由大到小、由新到舊)
+		// 也可以寫成 .sort(-createdAt)
+		const data = await Post.find(q).sort({ createdAt: timeSort });
 		successHandler({ res, customMessage: '取得所有 posts 成功', data});
 	},
 	async createPosts({ req, res }) {

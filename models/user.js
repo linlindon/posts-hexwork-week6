@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
 			type: String, 
 			required: [true, '使用者 email 未填寫'],
 			unique: true, //唯一性
+			lowercase: true,
 		},
 		password: { 
 			type: String, 
