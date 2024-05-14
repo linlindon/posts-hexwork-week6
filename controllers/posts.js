@@ -56,11 +56,19 @@ const posts = {
 	},
 	async deletePost({ req, res }) {
 		const { postId } = req.params;
+		console.log(postId);
 		try {
+			//mongoose.isValidObjectId() 只會檢查 id 的格式是否正確，不會檢查 id 是否存在
 			if (!mongoose.isValidObjectId(postId)){
 				return errorHandler({ res, customMessage: '無效的 post id'});
 			}
+
 			const deletePost = await Post.findByIdAndDelete(postId);
+			console.log(deletePost);
+			// 如果找不到對應的 post，deletePost 會是 null
+			if (!deletePost) {
+				return errorHandler({ res, customMessage: '找不到對應的 post，刪除失敗'});
+			}
 			successHandler({ res, customMessage: '刪除單筆 post 成功', deletePost});
 		} catch (err) {
 			errorHandler({res, err});
@@ -81,6 +89,11 @@ const posts = {
 				body.title = body.title.trim();
 			}
 			const updatePost = await Post.findByIdAndUpdate(postId, body, { runValidators: true, new: true });
+
+			if (!updatePost) {
+				return errorHandler({ res, customMessage: '找不到對應的 post，更新失敗'});
+			}
+
 			successHandler({ res, customMessage: '更新 post 成功', data: updatePost});
 		} catch (err) {
 			errorHandler({res, err});

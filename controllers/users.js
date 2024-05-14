@@ -19,6 +19,8 @@ const users = {
 				gender: body.gender,
 				photo: body.photo || 'https://api.dicebear.com/8.x/pixel-art/svg?seed=John&radius=50&size=40',
 			});
+			// newUser 會包含密碼，所以把他排除
+			newUser.password = undefined;
 			successHandler({ res, customMessage: '新增 user 成功', data: newUser });
 
 		} catch(err) {
