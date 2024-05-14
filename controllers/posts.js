@@ -29,7 +29,9 @@ const posts = {
 					content: body.content.trim(),
 					title: body.title.trim(),
 					tags: body.tags,
-					user: body.userId
+					user: body.userId,
+					// 如果沒有提供 photo，則使用預設圖片
+					photo: body.photo || 'https://source.unsplash.com/random/300x200',
 				});
 				successHandler({ res, customMessage: '新增 post 成功', data: newPost});
 			} else {

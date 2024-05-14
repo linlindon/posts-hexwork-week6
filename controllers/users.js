@@ -16,7 +16,8 @@ const users = {
 				name: body.name,
 				email: body.email,
 				password: body.password,
-				gender: body.gender
+				gender: body.gender,
+				photo: body.photo || 'https://api.dicebear.com/8.x/pixel-art/svg?seed=John&radius=50&size=40',
 			});
 			successHandler({ res, customMessage: '新增 user 成功', data: newUser });
 
