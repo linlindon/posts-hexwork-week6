@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { errorHandler, appError, handleErrorAsync } = require('../utils/errorHandler');
+const { errorHandler, appError } = require('../utils/errorHandler');
 const successHandler = require('../utils/successHandler');
 const Post = require('../models/posts');
 //User 雖然沒有直接被使用，但因為在 Post model 中有關聯到，所以需要引入
@@ -25,77 +25,61 @@ const posts = {
 		const { body } = req;
 
 		// 自定義的錯誤檢查
-		//if (body.content === undefined) {
-		//	return next(appError(400, '未提供文章內容'))
-		//}
-
-		// 這裡的 try catch 是為了捕捉 Post.create() 的錯誤，所以 catch 得到的 err 是 mongoose 所提供的錯誤
+		if (body.content === undefined) {
+			return next(appError(400, '未提供文章內容'))
+		}
 		
-			const newPost = await Post.create({
-				content: body.content.trim(),
-				tags: body.tags,
-				user: body.userId,
-				// 如果沒有提供 photo，則使用預設圖片
-				photo: body.photo || 'https://source.unsplash.com/random/300x200',
-			});
-			successHandler({ res, customMessage: '新增 post 成功', data: newPost});
-	
+		const newPost = await Post.create({
+			content: body.content.trim(),
+			tags: body.tags,
+			user: body.userId,
+			// 如果沒有提供 photo，則使用預設圖片
+			photo: body.photo || 'https://source.unsplash.com/random/300x200',
+		});
+		successHandler({ res, customMessage: '新增 post 成功', data: newPost});
 	},
 	async deleteAllPosts({req, res}) {
-		try {
-			// 避免前端忘記提供 post id 而刪除所有 posts
-			// 因為沒有 postId 所以會被判斷為刪除所有 posts 的路徑
-			if (req.originalUrl === '/posts/') {
-				return errorHandler({ res, customMessage: '未提供要刪除的 post id' });
-			}
-			const deletePosts = await Post.deleteMany();
-			successHandler({ res, customMessage: '刪除所有 posts 成功', deletePosts});
-		} catch (err) {
-			errorHandler({res, err});
+		// 避免前端忘記提供 post id 而刪除所有 posts
+		// 因為沒有 postId 所以會被判斷為刪除所有 posts 的路徑
+		if (req.originalUrl === '/posts/') {
+			return errorHandler({ res, customMessage: '未提供要刪除的 post id' });
 		}
+		const deletePosts = await Post.deleteMany();
+		successHandler({ res, customMessage: '刪除所有 posts 成功', deletePosts});
 	},
 	async deletePost({ req, res }) {
 		const { postId } = req.params;
-		console.log(postId);
-		try {
-			//mongoose.isValidObjectId() 只會檢查 id 的格式是否正確，不會檢查 id 是否存在
-			if (!mongoose.isValidObjectId(postId)){
-				return errorHandler({ res, customMessage: '無效的 post id'});
-			}
-
-			const deletePost = await Post.findByIdAndDelete(postId);
-			console.log(deletePost);
-			// 如果找不到對應的 post，deletePost 會是 null
-			if (!deletePost) {
-				return errorHandler({ res, customMessage: '找不到對應的 post，刪除失敗'});
-			}
-			successHandler({ res, customMessage: '刪除單筆 post 成功', deletePost});
-		} catch (err) {
-			errorHandler({res, err});
+		//mongoose.isValidObjectId() 只會檢查 id 的格式是否正確，不會檢查 id 是否存在
+		if (!mongoose.isValidObjectId(postId)){
+			return errorHandler({ res, customMessage: '無效的 post id'});
 		}
+
+		const deletePost = await Post.findByIdAndDelete(postId);
+		console.log(deletePost);
+		// 如果找不到對應的 post，deletePost 會是 null
+		if (!deletePost) {
+			return errorHandler({ res, customMessage: '找不到對應的 post，刪除失敗'});
+		}
+		successHandler({ res, customMessage: '刪除單筆 post 成功', deletePost});
 	},
 	async updatePost({ req, res }) {
 		const { postId } = req.params;
 		const { body } = req;
 
-		try {
-			if (!mongoose.isValidObjectId(postId)) {
-				return errorHandler({ res, customMessage: '無效的 post id' });
-			}
-			if (body.content) {
-				body.content = body.content.trim();
-			}
-
-			const updatePost = await Post.findByIdAndUpdate(postId, body, { runValidators: true, new: true });
-
-			if (!updatePost) {
-				return errorHandler({ res, customMessage: '找不到對應的 post，更新失敗'});
-			}
-
-			successHandler({ res, customMessage: '更新 post 成功', data: updatePost});
-		} catch (err) {
-			errorHandler({res, err});
+		if (!mongoose.isValidObjectId(postId)) {
+			return errorHandler({ res, customMessage: '無效的 post id' });
 		}
+		if (body.content) {
+			body.content = body.content.trim();
+		}
+
+		const updatePost = await Post.findByIdAndUpdate(postId, body, { runValidators: true, new: true });
+
+		if (!updatePost) {
+			return errorHandler({ res, customMessage: '找不到對應的 post，更新失敗'});
+		}
+
+		successHandler({ res, customMessage: '更新 post 成功', data: updatePost});
 	}
 };
 

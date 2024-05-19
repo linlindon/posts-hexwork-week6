@@ -12,16 +12,16 @@ router.post('/', handleErrorAsync(async function (req, res, next) {
 	await postsController.createPosts({ req, res, next });
 }));
 
-router.delete('/', function (req, res) {
-	postsController.deleteAllPosts({ req, res });
-});
+router.delete('/', handleErrorAsync(async function (req, res) {
+	await postsController.deleteAllPosts({ req, res });
+}));
 
-router.delete('/:postId', function (req, res) {
-	postsController.deletePost({ req, res });
-})
+router.delete('/:postId', handleErrorAsync(async function (req, res) {
+	await postsController.deletePost({ req, res });
+}));
 
-router.patch('/:postId', function (req, res) {
-	postsController.updatePost({ req, res });
-});
+router.patch('/:postId', handleErrorAsync(async function (req, res) {
+	await postsController.updatePost({ req, res });
+}));
 
 module.exports = router;
