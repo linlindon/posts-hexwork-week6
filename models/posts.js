@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const postsSchema = new mongoose.Schema(
 	{
-		title: { type: String, required: [true, '文章標題未填寫'] },
 		content: { type: String, required: [true, '文章內容未填寫'] },
 		user: { 
 			type: mongoose.Schema.ObjectId,

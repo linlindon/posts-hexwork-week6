@@ -8,7 +8,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res, next) {
-	postsController.createPosts({ req, res });
+	postsController.createPosts({ req, res, next });
 });
 
 router.delete('/', function (req, res) {

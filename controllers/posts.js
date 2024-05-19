@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const errorHandler = require('../utils/errorHandler');
+const appError = require('../utils/appError');
 const successHandler = require('../utils/successHandler');
 const Post = require('../models/posts');
 //User 雖然沒有直接被使用，但因為在 Post model 中有關聯到，所以需要引入
@@ -21,24 +22,26 @@ const posts = {
 		});
 		successHandler({ res, customMessage: '取得所有 posts 成功', data});
 	},
-	async createPosts({ req, res }) {
+	async createPosts({ req, res, next }) {
+		const { body } = req;
+
+		// 自定義的錯誤檢查
+		if (body.content === undefined) {
+			return next(appError(400, '未提供文章內容'))
+		}
+
+		// 這裡的 try catch 是為了捕捉 Post.create() 的錯誤，所以 catch 得到的 err 是 mongoose 所提供的錯誤
 		try {
-			const { body } = req;
-			if (body.content && body.title) {
-				const newPost = await Post.create({
-					content: body.content.trim(),
-					title: body.title.trim(),
-					tags: body.tags,
-					user: body.userId,
-					// 如果沒有提供 photo，則使用預設圖片
-					photo: body.photo || 'https://source.unsplash.com/random/300x200',
-				});
-				successHandler({ res, customMessage: '新增 post 成功', data: newPost});
-			} else {
-				errorHandler({ res, customMessage: '未提供文章內容或標題' });
-			}
+			const newPost = await Post.create({
+				content: body.content.trim(),
+				tags: body.tags,
+				user: body.userId,
+				// 如果沒有提供 photo，則使用預設圖片
+				photo: body.photo || 'https://source.unsplash.com/random/300x200',
+			});
+			successHandler({ res, customMessage: '新增 post 成功', data: newPost});
 		} catch (err) {
-			errorHandler({res, err});
+			next(err);
 		}
 	},
 	async deleteAllPosts({req, res}) {
@@ -85,9 +88,7 @@ const posts = {
 			if (body.content) {
 				body.content = body.content.trim();
 			}
-			if (body.title) {
-				body.title = body.title.trim();
-			}
+
 			const updatePost = await Post.findByIdAndUpdate(postId, body, { runValidators: true, new: true });
 
 			if (!updatePost) {
