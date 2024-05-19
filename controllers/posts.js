@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
-const errorHandler = require('../utils/errorHandler');
-const { appError } = require('../utils/errorHandler');
+const { errorHandler, appError, handleErrorAsync } = require('../utils/errorHandler');
 const successHandler = require('../utils/successHandler');
 const Post = require('../models/posts');
 //User 雖然沒有直接被使用，但因為在 Post model 中有關聯到，所以需要引入
@@ -26,12 +25,12 @@ const posts = {
 		const { body } = req;
 
 		// 自定義的錯誤檢查
-		if (body.content === undefined) {
-			return next(appError(400, '未提供文章內容'))
-		}
+		//if (body.content === undefined) {
+		//	return next(appError(400, '未提供文章內容'))
+		//}
 
 		// 這裡的 try catch 是為了捕捉 Post.create() 的錯誤，所以 catch 得到的 err 是 mongoose 所提供的錯誤
-		try {
+		
 			const newPost = await Post.create({
 				content: body.content.trim(),
 				tags: body.tags,
@@ -40,9 +39,7 @@ const posts = {
 				photo: body.photo || 'https://source.unsplash.com/random/300x200',
 			});
 			successHandler({ res, customMessage: '新增 post 成功', data: newPost});
-		} catch (err) {
-			next(err);
-		}
+	
 	},
 	async deleteAllPosts({req, res}) {
 		try {

@@ -2,14 +2,15 @@ var express = require('express');
 var router = express.Router();
 
 const postsController = require('../controllers/posts');
+const { handleErrorAsync } = require('../utils/errorHandler');
 
 router.get('/', function (req, res) {
 	postsController.getPosts({ req, res });
 });
 
-router.post('/', function (req, res, next) {
-	postsController.createPosts({ req, res, next });
-});
+router.post('/', handleErrorAsync(async function (req, res, next) {
+	await postsController.createPosts({ req, res, next });
+}));
 
 router.delete('/', function (req, res) {
 	postsController.deleteAllPosts({ req, res });
