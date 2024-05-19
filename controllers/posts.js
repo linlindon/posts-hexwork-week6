@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const errorHandler = require('../utils/errorHandler');
-const appError = require('../utils/appError');
+const { appError } = require('../utils/errorHandler');
 const successHandler = require('../utils/successHandler');
 const Post = require('../models/posts');
 //User 雖然沒有直接被使用，但因為在 Post model 中有關聯到，所以需要引入

@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npx nodemon ./bin/www"
+    "start": "npx nodemon ./bin/www",
+    "start:dev": "NODE_ENV=dev npx nodemon ./bin/www",
+		"start:prod": "NODE_ENV=prod npx nodemon ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
