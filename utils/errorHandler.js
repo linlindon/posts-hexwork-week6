@@ -28,6 +28,7 @@ const resErrorDev = (err, res) => {
 // 處理 production 環境的錯誤訊息，只顯示簡單的訊息
 const resErrorProd = (err, res) => {
 	//isOperational 是我們自己定義的屬性，用來判斷這個錯誤是不是我們預期的錯誤
+
 	if (err.isOperational) {
 		res.status(err.statusCode).send({
 			statusCode: err.statusCode,

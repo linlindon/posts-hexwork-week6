@@ -9,7 +9,7 @@ const users = {
 		const data = await Users.find();
 		successHandler({ res, customMessage: '取得所有 users 成功', data });
 	},
-	async createUser({ req, res }) {
+	async createUser({ req, res, next }) {
 		const { body } = req;
 		const newUser = await Users.create({
 			name: body.name,
