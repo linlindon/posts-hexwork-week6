@@ -8,7 +8,7 @@ router.get('/', handleErrorAsync(async function(req, res, next) {
 	await usersController.getUsers({ res, next });
 }));
 
-router.post('/', handleErrorAsync(async function(req, res, next) {
+router.post('/sign-up', handleErrorAsync(async function(req, res, next) {
 	await usersController.createUser({ req, res, next });
 }));
 

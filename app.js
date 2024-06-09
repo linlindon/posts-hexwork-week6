@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
-const validator = require('validator');
 
 bcrypt.hash("12345", 12).then(hash => {
 	console.log(hash);
