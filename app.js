@@ -3,15 +3,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-const bcrypt = require('bcrypt');
-
-bcrypt.hash("12345", 12).then(hash => {
-	console.log(hash);
-}).catch(err => {
-	console.error(err);
-});
-
-// bcrypt.compare('使用者在前台輸入的密碼', '資料庫裡面儲存的密碼').then((result) => { result 是 true 或 false })
 
 // 註冊監聽非預期的重大錯誤處理，server 還是會掛掉但至少會有錯誤訊息
 // 通常會放在最上面，因為這個錯誤處理是全域的，所以要在其他程式碼之前被註冊

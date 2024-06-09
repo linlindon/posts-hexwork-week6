@@ -12,4 +12,8 @@ router.post('/sign-up', handleErrorAsync(async function(req, res, next) {
 	await usersController.createUser({ req, res, next });
 }));
 
+router.post('/sign-in', handleErrorAsync(async function(req, res, next) {
+	await usersController.signInUser({ req, res, next });
+}));
+
 module.exports = router;
