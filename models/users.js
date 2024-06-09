@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema(
 			type: String, 
 			required: [true, '使用者密碼未填寫'],
 			select: false, //不回傳密碼
+			minlength: 8, //至少要有 8 個字元
 		},
 		createdAt: { type: Date, default: Date.now },
 		photo: String,
