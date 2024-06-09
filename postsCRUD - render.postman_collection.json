@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "faad7bd1-5200-45db-b1d7-f1e35d649f01",
-		"name": "postsCRUD - local",
+		"_postman_id": "a84b276a-ec26-420e-8040-b4ecad048a16",
+		"name": "postsCRUD - render",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "19604000"
 	},
@@ -12,15 +12,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-w5.onrender.com/posts",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-w5",
+						"onrender",
+						"com"
 					],
-					"port": "3005",
 					"path": [
 						"posts"
 					]
@@ -35,7 +33,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"新增文章測試2\",\n    \"content\": \"   想去花蓮曬太陽\",\n    \"tags\": \"大海\"\n}",
+					"raw": "{\n    \"content\": \"render 新增文章二 碼的連假一直下雨\",\n    \"tags\": [\"旅遊\"],\n    \"userId\": \"66433017b641e517f31f6a8f\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -43,15 +41,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-w5.onrender.com/posts",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-w5",
+						"onrender",
+						"com"
 					],
-					"port": "3005",
 					"path": [
 						"posts"
 					]
@@ -65,15 +61,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-w5.onrender.com/posts",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-w5",
+						"onrender",
+						"com"
 					],
-					"port": "3005",
 					"path": [
 						"posts"
 					]
@@ -87,18 +81,16 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts/662e583393514fcc9db6d",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-w5.onrender.com/posts/66655a8db18f059ca107948b",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-w5",
+						"onrender",
+						"com"
 					],
-					"port": "3005",
 					"path": [
 						"posts",
-						"662e583393514fcc9db6d"
+						"66655a8db18f059ca107948b"
 					]
 				}
 			},
@@ -111,7 +103,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"render 更新測試文章1\"\n}",
+					"raw": "{\n    \"content\": \"render 更新測試文章10\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -119,18 +111,16 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:3005/posts/662de74e6009641c307cd54e",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-w5.onrender.com/posts/66655eb69d137f6318ad1e0c",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-w5",
+						"onrender",
+						"com"
 					],
-					"port": "3005",
 					"path": [
 						"posts",
-						"662de74e6009641c307cd54e"
+						"66655eb69d137f6318ad1e0c"
 					]
 				}
 			},

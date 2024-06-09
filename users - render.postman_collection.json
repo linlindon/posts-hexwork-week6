@@ -1,0 +1,59 @@
+{
+	"info": {
+		"_postman_id": "5c193e19-99a6-4dcc-b600-3635b658ea80",
+		"name": "users - render",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19604000"
+	},
+	"item": [
+		{
+			"name": "get-all-users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://posts-hexwork-w5.onrender.com/users",
+					"protocol": "https",
+					"host": [
+						"posts-hexwork-w5",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add-new-user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"render 使用者\",\n    \"email\": \"forth@gmail.com\",\n    \"gender\": \"M\",\n    \"password\": \"12345rfvt\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://posts-hexwork-w5.onrender.com/users",
+					"protocol": "https",
+					"host": [
+						"posts-hexwork-w5",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
