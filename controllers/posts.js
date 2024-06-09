@@ -55,7 +55,7 @@ const posts = {
 		}
 
 		const deletePost = await Post.findByIdAndDelete(postId);
-		console.log(deletePost);
+
 		// 如果找不到對應的 post，deletePost 會是 null
 		if (!deletePost) {
 			return next(appError(400, '找不到對應的 post，刪除失敗'));

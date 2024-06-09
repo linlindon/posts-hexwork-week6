@@ -8,7 +8,6 @@ const errorHandler = ({res, err = {}, customMessage = ''}) => {
 
 // next(appError()) 會到 app.use 那邊的錯誤處理
 const appError = (httpStatus, errMessage, next) => {
-	console.log('進到 appError', errMessage);
 	const err = new Error(errMessage);
 	err.statusCode = httpStatus;
 	// 這是一個自訂的屬性，用來判斷這個錯誤是不是我們預期的錯誤
@@ -49,7 +48,6 @@ const handleErrorAsync = (fn) => {
 	return function (req, res, next) {
 		fn(req, res, next).catch(
 			err => {
-				console.log('進到 handleErrorAsync catch', err.message);
 				next(err);
 			}
 		);
