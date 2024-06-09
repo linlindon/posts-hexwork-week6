@@ -1,7 +1,7 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const cors = require('cors');
 
 // 註冊監聽非預期的重大錯誤處理，server 還是會掛掉但至少會有錯誤訊息
@@ -20,7 +20,7 @@ const postsRouter = require('./routes/posts');
 const usersRouter = require('./routes/users');
 const { resErrorDev, resErrorProd } = require('./utils/errorHandler');
 
-var app = express();
+const app = express();
 
 app.use(cors());
 app.use(logger('dev'));
