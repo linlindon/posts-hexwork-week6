@@ -69,8 +69,13 @@ const posts = {
 		if (!mongoose.isValidObjectId(postId)) {
 			return next(appError(400, '無效的 post id'));
 		}
+
 		if (body.content) {
 			body.content = body.content.trim();
+		}
+
+		if (!body.content) {
+			return next(appError(400, '未提供文章內容'));
 		}
 
 		const updatePost = await Post.findByIdAndUpdate(postId, body, { runValidators: true, new: true });
