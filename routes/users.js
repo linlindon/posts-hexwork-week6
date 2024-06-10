@@ -20,4 +20,8 @@ router.get('/profile', usersController.isAuth, handleErrorAsync(async function(r
 	await usersController.getProfile({ req, res, next });
 }));
 
+router.patch('/update-password', usersController.isAuth, handleErrorAsync(async function(req, res, next) {
+	await usersController.updatePassword({ req, res, next });
+}));
+
 module.exports = router;

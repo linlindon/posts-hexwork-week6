@@ -110,6 +110,17 @@ const users = {
 			return next(appError(401, '查無此會員'));
 		}
 		successHandler({ res, customMessage: '取得 user profile 成功', data: req.user});
+	},
+	async updatePassword({ req, res, next }) {
+		const { newPassword, confirmNewPassword } = req.body;
+		if (newPassword !== confirmNewPassword) {
+			return next(appError(400, '密碼不一致，請重新填寫'));
+		}
+		const password = await bcrypt.hash(newPassword, 12);
+		const user = await Users.findByIdAndUpdate(req.user.id, { password });
+
+		const token = generateSendJWT(user);
+		successHandler({ res, customMessage: '更新密碼成功', data: { token, name: user.name } });
 	}
 };
 
