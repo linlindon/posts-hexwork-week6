@@ -16,4 +16,8 @@ router.post('/sign-in', handleErrorAsync(async function(req, res, next) {
 	await usersController.signInUser({ req, res, next });
 }));
 
+router.get('/profile', usersController.isAuth, handleErrorAsync(async function(req, res, next) {
+	await usersController.getProfile({ req, res, next });
+}));
+
 module.exports = router;

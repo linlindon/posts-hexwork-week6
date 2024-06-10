@@ -78,6 +78,38 @@ const users = {
 			photo: user.photo,
 			gender: user.gender
 		}});
+	},
+	async isAuth( req, res, next ) {
+		let token;
+		if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+			token = req.headers.authorization.split(' ')[1];
+		}
+		
+		if (!token) {
+			return next(appError(401, '請先登入'));
+		}
+
+		// 驗證 token
+		const decode = await new Promise((resolve, reject) => {
+			jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(payload);
+				}
+			});
+		});
+
+		const currentUser = await Users.findById(decode.id);		
+		// request 可以自定義屬性上去，這樣在下一個 middleware 就可以取得這個值
+		req.user = currentUser;
+		next();
+	},
+	async getProfile({ req, res, next }) {
+		if (!req.user) {
+			return next(appError(401, '查無此會員'));
+		}
+		successHandler({ res, customMessage: '取得 user profile 成功', data: req.user});
 	}
 };
 
