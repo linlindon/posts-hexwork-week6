@@ -5,9 +5,9 @@ const postsController = require('../controllers/posts');
 const { handleErrorAsync } = require('../utils/errorHandler');
 const { isAuth } = require('../utils/auth');
 
-router.get('/', function (req, res, next) {
+router.get('/', isAuth, handleErrorAsync(async function (req, res, next) {
 	postsController.getPosts({ req, res, next });
-});
+}));
 
 router.post('/', isAuth, handleErrorAsync(async function (req, res, next) {
 	await postsController.createPosts({ req, res, next });
