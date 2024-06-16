@@ -21,16 +21,26 @@ const users = {
 			return next(appError(400, '請填寫完整資料'));
 		}
 
+		if (!validator.isLength(name, { min: 2 })) {
+			return next(appError(400, '名字至少要有 2 個字元'));
+		}
+
 		if (password !== confirmPassword) {
 			return next(appError(400, '密碼不一致'));
 		}
 
-		if (!validator.isLength(password, { min: 8 })) {
-			return next(appError(400, '密碼至少要有 8 個字元'));
+		if (!validator.isStrongPassword(password, { minLength: 8, minLowercase: 1, minUppercase: 0, minNumbers: 1, minSymbols: 0})) {
+			return next(appError(400, '密碼至少要有 8 個字元，且中英混合'));
 		}
 
 		if (!validator.isEmail(email)) {
 			return next(appError(400, 'email 格式錯誤'));
+		}
+
+		// 先檢查 email 是否已經被註冊過
+		const user = await Users.findOne(email);
+		if (user) {
+			return next(appError(400, '此 email 已被註冊'));
 		}
 
 		// 這邊要用 bcrypt 來 hash 密碼
@@ -102,6 +112,10 @@ const users = {
 
 		if (!name) {
 			return next(appError(400, '請填寫名字'));
+		}
+
+		if (!validator.isLength(name, { min: 2 })) {
+			return next(appError(400, '名字至少要有 2 個字元'));
 		}
 
 		const user = await Users.findByIdAndUpdate(req.user.id, { name, gender, photo }, { new: true });
