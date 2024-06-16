@@ -32,7 +32,7 @@ const posts = {
 		const newPost = await Post.create({
 			content: body.content.trim(),
 			tags: body.tags,
-			user: body.userId,
+			user: req.user._id,
 			// 如果沒有提供 photo，則使用預設圖片
 			photo: body.photo || 'https://source.unsplash.com/random/300x200',
 		});

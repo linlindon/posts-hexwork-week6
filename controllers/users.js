@@ -90,8 +90,26 @@ const users = {
 		const password = await bcrypt.hash(newPassword, 12);
 		const user = await Users.findByIdAndUpdate(req.user.id, { password });
 
+		if(!user) {
+			return next(appError(400, '更新密碼失敗'));
+		}
+
 		const token = generateSendJWT(user);
 		successHandler({ res, customMessage: '更新密碼成功', data: { token, name: user.name } });
+	},
+	async updateProfile({ req, res, next }) {
+		const { name, gender, photo } = req.body;
+
+		if (!name) {
+			return next(appError(400, '請填寫名字'));
+		}
+
+		const user = await Users.findByIdAndUpdate(req.user.id, { name, gender, photo }, { new: true });
+
+		if (!user) {
+			return next(appError(400, '更新 profile 失敗'));
+		}
+		successHandler({ res, customMessage: '更新 profile 成功', data: user });
 	}
 };
 

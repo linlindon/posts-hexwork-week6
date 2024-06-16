@@ -25,4 +25,8 @@ router.patch('/update-password', isAuth, handleErrorAsync(async function(req, re
 	await usersController.updatePassword({ req, res, next });
 }));
 
+router.patch('/update-profile', isAuth, handleErrorAsync(async function(req, res, next) {
+	await usersController.updateProfile({ req, res, next });
+}));
+
 module.exports = router;
