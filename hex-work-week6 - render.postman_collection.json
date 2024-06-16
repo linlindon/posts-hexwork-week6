@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "9f3e414b-458c-4f04-927a-40c78b56c6f7",
-		"name": "hex-work-week6",
+		"name": "hex-work-week6 - render",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "19604000"
 	},
@@ -12,15 +12,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3000/users",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-week6.onrender.com/users",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-week6",
+						"onrender",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"users"
 					]
@@ -35,19 +33,17 @@
 				"header": [
 					{
 						"key": "authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjVhZGRmNGRhMzE1NzM0YWQ4MjI0MyIsImlhdCI6MTcxNzk0MTUwNywiZXhwIjoxNzE4NTQ2MzA3fQ.wjMvr3XkpxyDU5Hv1YfnuBeAZ_wRaCezgpU1e3zIu9s"
+						"value": ""
 					}
 				],
 				"url": {
-					"raw": "http://127.0.0.1:3000/users/profile",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-week6.onrender.com/users/profile",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-week6",
+						"onrender",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"users",
 						"profile"
@@ -71,15 +67,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:3000/users/sign-up",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-week6.onrender.com/users/sign-up",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-week6",
+						"onrender",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"users",
 						"sign-up"
@@ -95,7 +89,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"seventh@bar.com\",\n    \"password\": \"123456fg\"\n}",
+					"raw": "{\n    \"email\": \"sixth@bar.com\",\n    \"password\": \"123456fg\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -103,15 +97,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:3000/users/sign-in",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-week6.onrender.com/users/sign-in",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-week6",
+						"onrender",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"users",
 						"sign-in"
@@ -128,7 +120,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjVhZGRmNGRhMzE1NzM0YWQ4MjI0MyIsImlhdCI6MTcxNzk0MTUwNywiZXhwIjoxNzE4NTQ2MzA3fQ.wjMvr3XkpxyDU5Hv1YfnuBeAZ_wRaCezgpU1e3zIu9s",
+							"value": "",
 							"type": "string"
 						}
 					]
@@ -145,15 +137,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:3000/users/update-password",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-week6.onrender.com/users/update-password",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-week6",
+						"onrender",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"users",
 						"update-password"
@@ -166,17 +156,29 @@
 			"name": "update-profile",
 			"request": {
 				"method": "PATCH",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"不知道會改到誰的名字\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://127.0.0.1:3000/users/update-profile",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-week6.onrender.com/users/update-profile",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-week6",
+						"onrender",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"users",
 						"update-profile"
@@ -192,19 +194,17 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjVhY2UwOGZjNzk4NzMzNTM5MGMxMiIsImlhdCI6MTcxODUxNzAzNCwiZXhwIjoxNzE5MTIxODM0fQ.LgKQSaGQ8KyX1JkkQHvs8z4yIIqvhhTqDrLia_HBQcQ"
+						"value": ""
 					}
 				],
 				"url": {
-					"raw": "http://127.0.0.1:3000/posts",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-week6.onrender.com/posts",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-week6",
+						"onrender",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"posts"
 					],
@@ -228,7 +228,12 @@
 			"name": "add-new-post",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": ""
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"content\": \"離職治百病\",\n    \"tags\": [\"工作\"],\n    \"userId\": \"666557ecaf0c208f44263f0a\"\n}",
@@ -239,15 +244,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:3000/posts",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-week6.onrender.com/posts",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-week6",
+						"onrender",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"posts"
 					]
@@ -261,15 +264,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3000/posts",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-week6.onrender.com/posts",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-week6",
+						"onrender",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"posts"
 					]
@@ -283,15 +284,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:3000/posts/66433178b641e517f31f6a99",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-week6.onrender.com/posts/66433178b641e517f31f6a99",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-week6",
+						"onrender",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"posts",
 						"66433178b641e517f31f6a99"
@@ -315,15 +314,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:3000/posts/66433178b641e517f31f6a95",
-					"protocol": "http",
+					"raw": "https://posts-hexwork-week6.onrender.com/posts/66433178b641e517f31f6a95",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"posts-hexwork-week6",
+						"onrender",
+						"com"
 					],
-					"port": "3000",
 					"path": [
 						"posts",
 						"66433178b641e517f31f6a95"
