@@ -17,7 +17,7 @@ const users = {
 	async createUser({ req, res, next }) {
 		let { name, email, password, confirmPassword, photo, gender } = req.body;
 
-		if (!name || !email || !password || !confirmPassword) {
+		if (!name || !email || !password || !confirmPassword || !gender) {
 			return next(appError(400, '請填寫完整資料'));
 		}
 
@@ -29,8 +29,9 @@ const users = {
 			return next(appError(400, '密碼不一致'));
 		}
 
-		if (!validator.isStrongPassword(password, { minLength: 8, minLowercase: 1, minUppercase: 0, minNumbers: 1, minSymbols: 0})) {
-			return next(appError(400, '密碼至少要有 8 個字元，且中英混合'));
+		const passwordRegex = /(?=.*[A-Za-z])(?=.*\d)/;
+		if (!passwordRegex.test(password)) {
+			return next(appError(400, '密碼至少要有 8 個字元，且字母與數字混合'));
 		}
 
 		if (!validator.isEmail(email)) {
@@ -38,7 +39,7 @@ const users = {
 		}
 
 		// 先檢查 email 是否已經被註冊過
-		const user = await Users.findOne(email);
+		const user = await Users.findOne({email});
 		if (user) {
 			return next(appError(400, '此 email 已被註冊'));
 		}
@@ -70,12 +71,12 @@ const users = {
 		// 在 User model 密碼預設為不顯示，所以這邊要用 select('+password') 來讓它顯示
 		const user = await Users.findOne({ email }).select('+password');
 		if (!user) {
-			return next(appError(400, '查無此帳號'));
+			return next(appError(400, '帳號或密碼錯誤，請重試'));
 		}	
 		const auth = await bcrypt.compare(password, user.password);
 
 		if (!auth) {
-			return next(appError(400, '密碼錯誤'));
+			return next(appError(400, '帳號或密碼錯誤，請重試'));
 		}
 		user.password = undefined;
 		const token = generateSendJWT(user);
