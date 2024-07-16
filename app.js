@@ -14,11 +14,12 @@ process.on('uncaughtException', err => {
 })
 
 require('./connections');
+const { notFoundPageError, generalErrorHandler } = require('./utils/errorHandler');
 
 const indexRouter = require('./routes/index');
 const postsRouter = require('./routes/posts');
 const usersRouter = require('./routes/users');
-const { resErrorDev, resErrorProd } = require('./utils/errorHandler');
+
 
 const app = express();
 
@@ -38,50 +39,12 @@ process.on('unhandledRejection', (err, promise) => {
 })
 
 // 404 錯誤處理
-app.use((req, res, next) => {
-	res.status(404).send('Page not found');
-});
+app.use(notFoundPageError);
 
 // 500 錯誤處理
 // next 參數就算沒用到也要寫上去，Express 会通过检查 middleware 函数的参数数量来區分普通的還是錯誤處理的 middleware。因此如果沒有寫完整，就不会被调用
 // 所有套件的錯誤也會被轉拋到這裡，通常要去看他們的文件來辨別錯誤的訊息
-app.use((err, req, res, next) => {
-	err.statusCode = err.statusCode || 500;
-
-	if (process.env.NODE_ENV === 'dev') {
-		return resErrorDev(err, res);
-	}
-
-	if (err.isOperational) {
-		return resErrorProd(err, res);
-	}
-
-	// 專門處理 prod 環境 mongoose 的錯誤
-	// 不可以直接把套件提供的錯誤訊息做轉拋，會很容易被別人猜到你是用什麼套件
-	switch (err.name) {
-		//如果沒有定義 message，就會是 Schema 當初定義的訊息直接被轉拋
-		case 'ValidationError':
-			err.message = '資料欄位填寫不完整或錯誤，請檢查';
-			err.statusCode = 400;
-			err.isOperational = true;
-			break;
-		case 'DocumentNotFoundError':
-			err.message = '找不到對應的資料';
-			err.statusCode = 400;
-			err.isOperational = true;
-			break;
-		case 'CastError':
-			err.message = '資料欄位填寫不正確，請重新輸入';
-			err.statusCode = 400;
-			err.isOperational = true;
-			break;
-		default:
-			err.message = '發生錯誤，請稍候嘗試';
-			err.isOperational = true;
-	}
-
-	resErrorProd(err, res);
-});
+app.use(generalErrorHandler);
 
 //以下是 express 預設的靜態首頁，必須要移到最後或刪除，才不會影響到自己設定的路由
 app.use(express.static(path.join(__dirname, 'public')));

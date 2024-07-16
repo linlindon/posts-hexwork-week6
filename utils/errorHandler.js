@@ -54,10 +54,54 @@ const handleErrorAsync = (fn) => {
 	}
 };
 
+const notFoundPageError = (req, res, next) => {
+	res.status(404).send('Page not found');
+};
+
+const generalErrorHandler = (err, req, res, next) => {
+	err.statusCode = err.statusCode || 500;
+
+	if (process.env.NODE_ENV === 'dev') {
+		return resErrorDev(err, res);
+	}
+
+	if (err.isOperational) {
+		return resErrorProd(err, res);
+	}
+
+	// 專門處理 prod 環境 mongoose 的錯誤
+	// 不可以直接把套件提供的錯誤訊息做轉拋，會很容易被別人猜到你是用什麼套件
+	switch (err.name) {
+		//如果沒有定義 message，就會是 Schema 當初定義的訊息直接被轉拋
+		case 'ValidationError':
+			err.message = '資料欄位填寫不完整或錯誤，請檢查';
+			err.statusCode = 400;
+			err.isOperational = true;
+			break;
+		case 'DocumentNotFoundError':
+			err.message = '找不到對應的資料';
+			err.statusCode = 400;
+			err.isOperational = true;
+			break;
+		case 'CastError':
+			err.message = '資料欄位填寫不正確，請重新輸入';
+			err.statusCode = 400;
+			err.isOperational = true;
+			break;
+		default:
+			err.message = '發生錯誤，請稍候嘗試';
+			err.isOperational = true;
+	}
+
+	resErrorProd(err, res);
+};
+
 module.exports = {
 	errorHandler,
 	appError,
 	resErrorDev,
 	resErrorProd,
-	handleErrorAsync
+	handleErrorAsync,
+	notFoundPageError,
+	generalErrorHandler
 };
